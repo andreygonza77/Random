@@ -1,6 +1,8 @@
 const btn = document.querySelector(".btn");
 const passwordTxt = document.querySelector(".passwordTxt");
 const max = 16;
+const halfMax = 8;
+const rootMax = 4;
 const characters = [
   "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
   "a", "s", "d", "f", "g", "h", "j", "k", "l",
@@ -22,9 +24,17 @@ function getSecureIndex(n){
 
 function getPassword(){
     let password = "";
-    for(let i = 0; i < max; i++){
-        let index = getSecureIndex(characters.length) ;
-        password += characters[index];
+    switch(checkSelect()){
+        case 1:
+            password = password1();
+            break;
+        case 2:
+            password = password2();
+            break;
+        case 3: 
+            password = password3();
+            break;
+
     }
     return password;
 }
@@ -32,8 +42,54 @@ function getPassword(){
 function start(){
     passwordTxt.innerHTML = getPassword();
 }
-
 btn.addEventListener("click", start);
+
+function password1(){
+    let password = "";
+    for(let i = 0; i < max; i++){
+        let index = getSecureIndex(characters.length) ;
+        password += characters[index];
+    }
+    return password;
+}
+
+function password2(){
+    let password = "";
+    for(let j = 0; j < 3; j++){
+        for(let i = 0; i < rootMax; i++){
+            let index = getSecureIndex(characters.length) ;
+            password += characters[index];
+        }
+        if(j < 2) password += "-";
+    }
+    return password;
+}
+
+function password3(){
+    let password = "";
+    for(let i = 0; i < halfMax; i++){
+        let index = getSecureIndex(characters.length) ;
+        password += characters[index];
+    }
+    return password;
+}
+const passwordStyleSelect = document.querySelector(".passwordStyle");
+
+
+
+function checkSelect(){
+    switch(passwordStyleSelect.value){
+        case "opt1": 
+            return 1;
+        case "opt2":
+            return 2;
+        case "opt3":
+            return 3;
+        default: return 1;
+    }
+}
+
+
 
 /*
 Using Math.Random()
