@@ -16,6 +16,9 @@ const characters = [
 
   "!", "?", "%", "/", "£", "€", "&", "(", ")", "=", "'", "+", "-", "*", ",", ".", ";", ":", "_", "@", "#", "$", "^"];
 
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+
 function getSecureIndex(n){
     const array = new Uint32Array(1);
     window.crypto.getRandomValues(array);
@@ -34,33 +37,41 @@ function getPassword(){
         case 3: 
             password = password3();
             break;
-
     }
     return password;
 }
 
 function start(){
-    passwordTxt.innerHTML = getPassword();
+    passwordTxt.innerHTML = `<b>` + getPassword() + `</b>`;
 }
 btn.addEventListener("click", start);
 
 function password1(){
     let password = "";
     for(let i = 0; i < max; i++){
-        let index = getSecureIndex(characters.length) ;
+        let index = getSecureIndex(characters.length);
+        let indexNumb = getSecureIndex(numbers.length);
+        if(i + 1 == max){
+            if(!checkPassword(password)) password += numbers[indexNumb];
+        }
         password += characters[index];
+        
     }
     return password;
 }
 
 function password2(){
-    let password = "";
+    let password = ""; // xxxx-xxxx-xxxx
     for(let j = 0; j < 3; j++){
         for(let i = 0; i < rootMax; i++){
-            let index = getSecureIndex(characters.length) ;
+            let index = getSecureIndex(characters.length);
+            let indexNumb = getSecureIndex(numbers.length);
+            
             password += characters[index];
         }
-        if(j < 2) password += "-";
+        if(j < 2) password += "-";{
+                if(!checkPassword(password)) password += numbers[indexNumb];
+        }
     }
     return password;
 }
@@ -68,14 +79,20 @@ function password2(){
 function password3(){
     let password = "";
     for(let i = 0; i < halfMax; i++){
-        let index = getSecureIndex(characters.length) ;
+        let index = getSecureIndex(characters.length);
+        let indexNumb = getSecureIndex(numbers.length);
+        if(i + 1 == halfMax){
+            if(!checkPassword(password)) password += numbers[indexNumb];
+        }
         password += characters[index];
     }
     return password;
 }
 const passwordStyleSelect = document.querySelector(".passwordStyle");
 
-
+function checkPassword(pw){
+    return /\d/.test(pw);
+}
 
 function checkSelect(){
     switch(passwordStyleSelect.value){
@@ -88,29 +105,6 @@ function checkSelect(){
         default: return 1;
     }
 }
-
-
-
-/*
-Using Math.Random()
-
-function getPassword(){
-    let password = "";
-    for(let i = 0; i < 16; i++){
-        let n = Math.floor(Math.random() * characters.length);    
-        console.log(characters[n]);
-        password += characters[n];
-    }
-    return password;
-}
-
-function start(){
-    passwordTxt.innerHTML = getPassword();
-}
-
-btn.addEventListener("click", start);
-*/
-
 
 /*
 
