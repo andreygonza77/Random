@@ -62,10 +62,11 @@ function password1(){
 
 function password2(){
     let password = ""; // xxxx-xxxx-xxxx
+    let indexNumb = getSecureIndex(numbers.length);
     for(let j = 0; j < 3; j++){
         for(let i = 0; i < rootMax; i++){
             let index = getSecureIndex(characters.length);
-            let indexNumb = getSecureIndex(numbers.length);
+            
             
             password += characters[index];
         }
@@ -78,9 +79,9 @@ function password2(){
 
 function password3(){
     let password = "";
+    let indexNumb = getSecureIndex(numbers.length);
     for(let i = 0; i < halfMax; i++){
         let index = getSecureIndex(characters.length);
-        let indexNumb = getSecureIndex(numbers.length);
         if(i + 1 == halfMax){
             if(!checkPassword(password)) password += numbers[indexNumb];
         }
